@@ -18,20 +18,7 @@ function newProject(req, res) {
 }
 
 function getProject(req, res) {
-  const id = req.params.id;
-  db.get(id)
-    .then(project => {
-      res.status(200).json({
-        success: true,
-        project
-      });
-    })
-    .catch(err =>
-      res.status(500).json({
-        success: false,
-        error: "There was an error while retrieving  the data from the database"
-      })
-    );
+  return res.status(200).json(req.project);
 }
 
 function updateProject(req, res) {
@@ -52,31 +39,29 @@ function updateProject(req, res) {
 }
 
 async function deleteProject(req, res) {
-  try {
-    const count = await db.remove(req.params.id);
-    if (count > 0) {
-      return res.status(204).send();
-    }
-  } catch (error) {
-    return res.status(500).json({ message: error.message });
-  }
+  db.remove(req.project.id)
+    .then(info => {
+      res.status(200).json({ message: `removed ${info} project` });
+    })
+    .catch(error => {
+      res.status(500).json({
+        "error removing project": error.message
+      });
+    });
 }
 
 function getProjectActions(req, res) {
-  const id = req.params.id;
-  db.getProjectActions(id)
-    .then(project => {
-      res.status(200).json({
-        success: true,
-        project
-      });
+  const postInfo = { ...req.body, project_id: req.params.id };
+
+  db.insert(postInfo)
+    .then(action => {
+      res.status(210).json(action);
     })
-    .catch(err =>
+    .catch(error => {
       res.status(500).json({
-        success: false,
-        error: "There was an error while retrieving  the data from the database"
-      })
-    );
+        "error posting to project": error.message
+      });
+    });
 }
 
 module.exports = {
