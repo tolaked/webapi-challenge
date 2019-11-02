@@ -51,9 +51,7 @@ async function deleteProject(req, res) {
 }
 
 function getProjectActions(req, res) {
-  const postInfo = { ...req.body, project_id: req.params.id };
-
-  db.insert(postInfo)
+  db.getProjectActions(req.params.id)
     .then(action => {
       res.status(210).json(action);
     })

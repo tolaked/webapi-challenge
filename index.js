@@ -1,6 +1,6 @@
 const express = require("express");
 
-const { newAction } = require("./data/projectdata/actions");
+const actions = require("./data/routes/actionRoutes");
 const projects = require("./data/routes/projectroutes");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(helmet());
 
 app.use("/api", projects);
-app.post("/api/action", newAction);
+app.use("/api", actions);
 
 app.get("*", (req, res) => {
   res.send("Hello there");

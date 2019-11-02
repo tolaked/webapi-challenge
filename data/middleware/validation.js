@@ -3,7 +3,7 @@ const actions = require("../helpers/actionModel");
 
 function validateId(req, res, next) {
   projects
-    .get(req.params.id)
+    .get(req.body.project_id)
     .then(project => {
       if (project) {
         req.project = project;
@@ -30,7 +30,8 @@ function validateProject(req, res, next) {
 }
 
 function validateActionId(req, res, next) {
-  Actions.get(req.params.id)
+  actions
+    .get(req.params.id)
     .then(action => {
       if (action) {
         req.action = action;

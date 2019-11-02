@@ -2,9 +2,10 @@
 const db = require("../helpers/actionModel");
 
 function newAction(req, res) {
-  const postInfo = { ...req.body, project_id: req.params.id };
+  const { projectid, name, description } = req.body;
+  console.log(req.body);
 
-  db.insert(postInfo)
+  db.insert(req.body)
     .then(action => {
       res.status(210).json(action);
     })
@@ -15,9 +16,10 @@ function newAction(req, res) {
     });
 }
 
-function getAction(req, res) {
+function getActions(req, res) {
   db.get()
     .then(actions => {
+      console.log(actions);
       res.status(200).json(actions);
     })
     .catch(error => {
@@ -27,4 +29,28 @@ function getAction(req, res) {
     });
 }
 
-module.exports = { newAction, getAction };
+function deleteAction(req, res) {
+  db.remove(req.action.id)
+    .then(num => {
+      res.status(200).json({ message: `removed ${num} action` });
+    })
+    .catch(error => {
+      res.status(500).json({
+        "error removing action": error.message
+      });
+    });
+}
+
+function patchAction(req, res) {
+  db.update(req.action.id, req.body)
+    .then(editedProject => {
+      res.status(200).json(editedProject);
+    })
+    .catch(error => {
+      res.status(500).json({
+        "error editing action": error.message
+      });
+    });
+}
+
+module.exports = { newAction, getActions, deleteAction, patchAction };
