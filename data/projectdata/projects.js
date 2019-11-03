@@ -21,6 +21,18 @@ function getProject(req, res) {
   return res.status(200).json(req.project);
 }
 
+function getAllProjects(req, res) {
+  db.get()
+    .then(projects => {
+      res.status(200).json(projects);
+    })
+    .catch(error => {
+      res.status(500).json({
+        "Error retrieving projects": error.message
+      });
+    });
+}
+
 function updateProject(req, res) {
   const { id } = req.params;
   db.update(id, req.body)
@@ -67,5 +79,6 @@ module.exports = {
   getProject,
   updateProject,
   deleteProject,
-  getProjectActions
+  getProjectActions,
+  getAllProjects
 };

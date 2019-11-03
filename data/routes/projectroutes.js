@@ -5,7 +5,8 @@ const {
   getProject,
   updateProject,
   deleteProject,
-  getProjectActions
+  getProjectActions,
+  getAllProjects
 } = require("../projectdata/projects");
 
 const {
@@ -16,6 +17,7 @@ const {
 const router = express.Router();
 
 router.post("/projects", validateProject, newProject);
+router.get("/projects", getAllProjects);
 router.get("/:id/project", validateId, getProject);
 router.put("/:id/project", validateId, validateProject, updateProject);
 router.delete("/:id/projects", validateId, deleteProject);
