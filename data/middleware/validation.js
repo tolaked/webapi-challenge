@@ -3,7 +3,7 @@ const actions = require("../helpers/actionModel");
 
 function validateId(req, res, next) {
   projects
-    .get(req.body.project_id)
+    .get(req.params.id)
     .then(project => {
       if (project) {
         req.project = project;
@@ -57,9 +57,28 @@ function validateAction(req, res, next) {
   }
 }
 
+function validateProjectId(req, res, next) {
+  projects
+    .get(req.body.project_id)
+    .then(project => {
+      if (project) {
+        req.project = project;
+        next();
+      } else {
+        res.status(404).json({ message: "invalid project id" });
+      }
+    })
+    .catch(error => {
+      res.status(500).json({
+        "something went wrong quering db": error.message
+      });
+    });
+}
+
 module.exports = {
   validateId,
   validateProject,
   validateActionId,
-  validateAction
+  validateAction,
+  validateProjectId
 };

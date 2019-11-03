@@ -10,11 +10,12 @@ const {
 const {
   validateId,
   validateAction,
-  validateActionId
+  validateActionId,
+  validateProjectId
 } = require("../middleware/validation");
 const router = express.Router();
 
-router.post("/actions", validateId, validateAction, newAction);
+router.post("/actions", validateProjectId, validateAction, newAction);
 router.get("/allactions", getActions);
 router.get("/:id", validateActionId, (req, res) => {
   res.status(200).json(req.action);

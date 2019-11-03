@@ -11,7 +11,6 @@ const {
 const {
   validateId,
   validateProject,
-  validateAction,
   validateActionId
 } = require("../middleware/validation");
 const router = express.Router();
