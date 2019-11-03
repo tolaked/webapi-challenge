@@ -29,16 +29,16 @@ function useProjectList() {
           <h3>Project Name:{element.name}</h3>
           <p>Description:{element.description}</p>
           <p>Completed:{element.completed.toString()}</p>
-          <button onClick={e => actions(e, element.id)}>View actions</button>
           {projecaction
             ? projecaction.map(el =>
                 element.id === el.project_id ? (
                   <div>
-                    <p>{el.description}</p>
+                    <p>Action:{el.description}</p>
                   </div>
                 ) : null
               )
             : null}
+          <button onClick={e => actions(e, element.id)}>View actions</button>
         </div>
       ))}
     </div>
